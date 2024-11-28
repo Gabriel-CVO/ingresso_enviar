@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Verificar Repositório') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], useRemoteConfigs: [[url: 'https://github.com/Gabriel-CVO/ingressoEnviar.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], useRemoteConfigs: [[url: 'https://github.com/Gabriel-CVO/ingresso_enviar.git']]])
             }
         }
 
@@ -13,7 +13,7 @@ pipeline {
         stage('Construir Imagem Docker') {
             steps {
                 script {
-                    def appName = 'ingressoEnviar'
+                    def appName = 'ingresso_enviar'
                     def imageTag = "${appName}:${env.BUILD_ID}"
                     bat "docker build -t ${imageTag} ."
                 }
@@ -23,7 +23,7 @@ pipeline {
         stage('Fazer Deploy') {
             steps {
                 script {
-                    def appName = 'ingressoEnviar'
+                    def appName = 'ingresso_enviar'
                     def imageTag = "${appName}:${env.BUILD_ID}"
                     bat "docker stop ${appName} || exit 0"
                     bat "docker rm ${appName} || exit 0"
